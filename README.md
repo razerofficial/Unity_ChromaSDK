@@ -5,7 +5,6 @@
 * [User Privacy](#user-privacy)
 * [Dependencies](#dependencies)
 * [Requirements and Setup](#requirements-and-setup)
-* [See Also](#see-also)
 * [About](#about)
 * [Chroma Editor Library](#chroma-editor-library)
 * [Windows PC](#windows-pc)
