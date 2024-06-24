@@ -304,7 +304,7 @@ namespace ChromaSDK
             {
                 String fileName;
 #if UNITY_64
-				fileName = @"C:\Program Files\Razer Chroma SDK\bin\RzChromatic64.dll";
+                fileName = @"C:\Program Files\Razer Chroma SDK\bin\RzChromatic64.dll";
 #else
                 fileName = @"C:\Program Files (x86)\Razer Chroma SDK\bin\RzChromatic.dll";
 #endif
@@ -3543,9 +3543,9 @@ namespace ChromaSDK
 		/// Returns the animation id upon success. Returns negative one upon failure. 
 		///
 		/// </summary>
-		public static int GetFrame(int animationId, int frameIndex, out float duration, int[] colors, int length, int[] keys, int keysLength)
+		public static int GetFrame(int animationId, int frameId, out float duration, int[] colors, int length, int[] keys, int keysLength)
 		{
-			int result = PluginGetFrame(animationId, frameIndex, out duration, colors, length, keys, keysLength);
+			int result = PluginGetFrame(animationId, frameId, out duration, colors, length, keys, keysLength);
 			return result;
 		}
 		/// <summary>
@@ -3581,6 +3581,27 @@ namespace ChromaSDK
 			return result;
 		}
 		/// <summary>
+		/// Returns the duration of an animation frame in seconds upon success. Returns 
+		/// zero upon failure.
+		/// </summary>
+		public static float GetFrameDuration(int animationId, int frameId)
+		{
+			float result = PluginGetFrameDuration(animationId, frameId);
+			return result;
+		}
+		/// <summary>
+		/// Returns the duration of an animation frame in seconds upon success. Returns 
+		/// zero upon failure.
+		/// </summary>
+		public static float GetFrameDurationName(string path, int frameId)
+		{
+			string str_Path = GetStreamingPath(path);
+			IntPtr lp_Path = GetPathIntPtr(str_Path);
+			float result = PluginGetFrameDurationName(lp_Path, frameId);
+			FreeIntPtr(lp_Path);
+			return result;
+		}
+		/// <summary>
 		/// Get the frame colors and duration (in seconds) for a `Chroma` animation 
 		/// referenced by name. The `color` is expected to be an array of the expected 
 		/// dimensions for the `deviceType/device`. The `length` parameter is the size 
@@ -3592,11 +3613,11 @@ namespace ChromaSDK
 		/// Returns the animation id upon success. Returns negative one upon failure. 
 		///
 		/// </summary>
-		public static int GetFrameName(string path, int frameIndex, out float duration, int[] colors, int length, int[] keys, int keysLength)
+		public static int GetFrameName(string path, int frameId, out float duration, int[] colors, int length, int[] keys, int keysLength)
 		{
 			string str_Path = GetStreamingPath(path);
 			IntPtr lp_Path = GetPathIntPtr(str_Path);
-			int result = PluginGetFrameName(lp_Path, frameIndex, out duration, colors, length, keys, keysLength);
+			int result = PluginGetFrameName(lp_Path, frameId, out duration, colors, length, keys, keysLength);
 			FreeIntPtr(lp_Path);
 			return result;
 		}
@@ -3736,6 +3757,27 @@ namespace ChromaSDK
 		public static double GetRGBD(double red, double green, double blue)
 		{
 			double result = PluginGetRGBD(red, green, blue);
+			return result;
+		}
+		/// <summary>
+		/// Returns the total duration of an animation in seconds upon success. Returns 
+		/// zero upon failure.
+		/// </summary>
+		public static float GetTotalDuration(int animationId)
+		{
+			float result = PluginGetTotalDuration(animationId);
+			return result;
+		}
+		/// <summary>
+		/// Returns the total duration of an animation in seconds upon success. Returns 
+		/// zero upon failure.
+		/// </summary>
+		public static float GetTotalDurationName(string path)
+		{
+			string str_Path = GetStreamingPath(path);
+			IntPtr lp_Path = GetPathIntPtr(str_Path);
+			float result = PluginGetTotalDurationName(lp_Path);
+			FreeIntPtr(lp_Path);
 			return result;
 		}
 		/// <summary>
@@ -5012,32 +5054,32 @@ namespace ChromaSDK
 			return result;
 		}
 		/// <summary>
-		/// Displays the `Chroma` animation frame on `Chroma` hardware given the `frameIndex`. 
+		/// Displays the `Chroma` animation frame on `Chroma` hardware given the `frameId`. 
 		/// Returns the animation id upon success. Returns negative one upon failure. 
 		///
 		/// </summary>
-		public static int PreviewFrame(int animationId, int frameIndex)
+		public static int PreviewFrame(int animationId, int frameId)
 		{
-			int result = PluginPreviewFrame(animationId, frameIndex);
+			int result = PluginPreviewFrame(animationId, frameId);
 			return result;
 		}
 		/// <summary>
 		/// D suffix for limited data types.
 		/// </summary>
-		public static double PreviewFrameD(double animationId, double frameIndex)
+		public static double PreviewFrameD(double animationId, double frameId)
 		{
-			double result = PluginPreviewFrameD(animationId, frameIndex);
+			double result = PluginPreviewFrameD(animationId, frameId);
 			return result;
 		}
 		/// <summary>
-		/// Displays the `Chroma` animation frame on `Chroma` hardware given the `frameIndex`. 
+		/// Displays the `Chroma` animation frame on `Chroma` hardware given the `frameId`. 
 		/// Animaton is referenced by name.
 		/// </summary>
-		public static void PreviewFrameName(string path, int frameIndex)
+		public static void PreviewFrameName(string path, int frameId)
 		{
 			string str_Path = GetStreamingPath(path);
 			IntPtr lp_Path = GetPathIntPtr(str_Path);
-			PluginPreviewFrameName(lp_Path, frameIndex);
+			PluginPreviewFrameName(lp_Path, frameId);
 			FreeIntPtr(lp_Path);
 		}
 		/// <summary>
@@ -6469,26 +6511,26 @@ namespace ChromaSDK
 			PluginUnloadLibraryStreamingPlugin();
 		}
 		/// <summary>
-		/// Updates the `frameIndex` of the `Chroma` animation referenced by id and 
-		/// sets the `duration` (in seconds). The `color` is expected to be an array 
-		/// of the dimensions for the `deviceType/device`. The `length` parameter is 
-		/// the size of the `color` array. For `EChromaSDKDevice1DEnum` the array size 
+		/// Updates the `frameId` of the `Chroma` animation referenced by id and sets 
+		/// the `duration` (in seconds). The `color` is expected to be an array of 
+		/// the dimensions for the `deviceType/device`. The `length` parameter is the 
+		/// size of the `color` array. For `EChromaSDKDevice1DEnum` the array size 
 		/// should be `MAX LEDS`. For `EChromaSDKDevice2DEnum` the array size should 
 		/// be `MAX ROW` times `MAX COLUMN`. Keys are populated only for EChromaSDKDevice2DEnum::DE_Keyboard 
 		/// and EChromaSDKDevice2DEnum::DE_KeyboardExtended. Keys will only use the 
 		/// EChromaSDKDevice2DEnum::DE_Keyboard `MAX_ROW` times `MAX_COLUMN` keysLength. 
 		///
 		/// </summary>
-		public static int UpdateFrame(int animationId, int frameIndex, float duration, int[] colors, int length, int[] keys, int keysLength)
+		public static int UpdateFrame(int animationId, int frameId, float duration, int[] colors, int length, int[] keys, int keysLength)
 		{
-			int result = PluginUpdateFrame(animationId, frameIndex, duration, colors, length, keys, keysLength);
+			int result = PluginUpdateFrame(animationId, frameId, duration, colors, length, keys, keysLength);
 			return result;
 		}
 		/// <summary>
-		/// Update the `frameIndex` of the `Chroma` animation referenced by name and 
-		/// sets the `duration` (in seconds). The `color` is expected to be an array 
-		/// of the dimensions for the `deviceType/device`. The `length` parameter is 
-		/// the size of the `color` array. For `EChromaSDKDevice1DEnum` the array size 
+		/// Update the `frameId` of the `Chroma` animation referenced by name and sets 
+		/// the `duration` (in seconds). The `color` is expected to be an array of 
+		/// the dimensions for the `deviceType/device`. The `length` parameter is the 
+		/// size of the `color` array. For `EChromaSDKDevice1DEnum` the array size 
 		/// should be `MAX LEDS`. For `EChromaSDKDevice2DEnum` the array size should 
 		/// be `MAX ROW` times `MAX COLUMN`. Keys are populated only for EChromaSDKDevice2DEnum::DE_Keyboard 
 		/// and EChromaSDKDevice2DEnum::DE_KeyboardExtended. Keys will only use the 
@@ -6496,11 +6538,11 @@ namespace ChromaSDK
 		/// Returns the animation id upon success. Returns negative one upon failure. 
 		///
 		/// </summary>
-		public static int UpdateFrameName(string path, int frameIndex, float duration, int[] colors, int length, int[] keys, int keysLength)
+		public static int UpdateFrameName(string path, int frameId, float duration, int[] colors, int length, int[] keys, int keysLength)
 		{
 			string str_Path = GetStreamingPath(path);
 			IntPtr lp_Path = GetPathIntPtr(str_Path);
-			int result = PluginUpdateFrameName(lp_Path, frameIndex, duration, colors, length, keys, keysLength);
+			int result = PluginUpdateFrameName(lp_Path, frameId, duration, colors, length, keys, keysLength);
 			FreeIntPtr(lp_Path);
 			return result;
 		}
@@ -8351,10 +8393,10 @@ namespace ChromaSDK
 		/// EChromaSDKDevice2DEnum::DE_Keyboard `MAX_ROW` times `MAX_COLUMN` keysLength. 
 		/// Returns the animation id upon success. Returns negative one upon failure. 
 		///
-		/// EXPORT_API int PluginGetFrame(int animationId, int frameIndex, float* duration, int* colors, int length, int* keys, int keysLength);
+		/// EXPORT_API int PluginGetFrame(int animationId, int frameId, float* duration, int* colors, int length, int* keys, int keysLength);
 		/// </summary>
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern int PluginGetFrame(int animationId, int frameIndex, out float duration, int[] colors, int length, int[] keys, int keysLength);
+		private static extern int PluginGetFrame(int animationId, int frameId, out float duration, int[] colors, int length, int[] keys, int keysLength);
 		/// <summary>
 		/// Returns the frame count of a `Chroma` animation upon success. Returns negative 
 		/// one upon failure.
@@ -8376,6 +8418,20 @@ namespace ChromaSDK
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		private static extern double PluginGetFrameCountNameD(IntPtr path);
 		/// <summary>
+		/// Returns the duration of an animation frame in seconds upon success. Returns 
+		/// zero upon failure.
+		/// EXPORT_API float PluginGetFrameDuration(int animationId, int frameId);
+		/// </summary>
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		private static extern float PluginGetFrameDuration(int animationId, int frameId);
+		/// <summary>
+		/// Returns the duration of an animation frame in seconds upon success. Returns 
+		/// zero upon failure.
+		/// EXPORT_API float PluginGetFrameDurationName(const char* path, int frameId);
+		/// </summary>
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		private static extern float PluginGetFrameDurationName(IntPtr path, int frameId);
+		/// <summary>
 		/// Get the frame colors and duration (in seconds) for a `Chroma` animation 
 		/// referenced by name. The `color` is expected to be an array of the expected 
 		/// dimensions for the `deviceType/device`. The `length` parameter is the size 
@@ -8386,10 +8442,10 @@ namespace ChromaSDK
 		/// EChromaSDKDevice2DEnum::DE_Keyboard `MAX_ROW` times `MAX_COLUMN` keysLength. 
 		/// Returns the animation id upon success. Returns negative one upon failure. 
 		///
-		/// EXPORT_API int PluginGetFrameName(const char* path, int frameIndex, float* duration, int* colors, int length, int* keys, int keysLength);
+		/// EXPORT_API int PluginGetFrameName(const char* path, int frameId, float* duration, int* colors, int length, int* keys, int keysLength);
 		/// </summary>
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern int PluginGetFrameName(IntPtr path, int frameIndex, out float duration, int[] colors, int length, int[] keys, int keysLength);
+		private static extern int PluginGetFrameName(IntPtr path, int frameId, out float duration, int[] colors, int length, int[] keys, int keysLength);
 		/// <summary>
 		/// Get the color of an animation key for the given frame referenced by id. 
 		///
@@ -8492,6 +8548,20 @@ namespace ChromaSDK
 		/// </summary>
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		private static extern double PluginGetRGBD(double red, double green, double blue);
+		/// <summary>
+		/// Returns the total duration of an animation in seconds upon success. Returns 
+		/// zero upon failure.
+		/// EXPORT_API float PluginGetTotalDuration(int animationId);
+		/// </summary>
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		private static extern float PluginGetTotalDuration(int animationId);
+		/// <summary>
+		/// Returns the total duration of an animation in seconds upon success. Returns 
+		/// zero upon failure.
+		/// EXPORT_API float PluginGetTotalDurationName(const char* path);
+		/// </summary>
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		private static extern float PluginGetTotalDurationName(IntPtr path);
 		/// <summary>
 		/// Check if the animation has loop enabled referenced by id.
 		/// EXPORT_API bool PluginHasAnimationLoop(int animationId);
@@ -9374,26 +9444,26 @@ namespace ChromaSDK
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		private static extern double PluginPlayCompositeD(IntPtr name, double loop);
 		/// <summary>
-		/// Displays the `Chroma` animation frame on `Chroma` hardware given the `frameIndex`. 
+		/// Displays the `Chroma` animation frame on `Chroma` hardware given the `frameId`. 
 		/// Returns the animation id upon success. Returns negative one upon failure. 
 		///
-		/// EXPORT_API int PluginPreviewFrame(int animationId, int frameIndex);
+		/// EXPORT_API int PluginPreviewFrame(int animationId, int frameId);
 		/// </summary>
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern int PluginPreviewFrame(int animationId, int frameIndex);
+		private static extern int PluginPreviewFrame(int animationId, int frameId);
 		/// <summary>
 		/// D suffix for limited data types.
-		/// EXPORT_API double PluginPreviewFrameD(double animationId, double frameIndex);
+		/// EXPORT_API double PluginPreviewFrameD(double animationId, double frameId);
 		/// </summary>
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern double PluginPreviewFrameD(double animationId, double frameIndex);
+		private static extern double PluginPreviewFrameD(double animationId, double frameId);
 		/// <summary>
-		/// Displays the `Chroma` animation frame on `Chroma` hardware given the `frameIndex`. 
+		/// Displays the `Chroma` animation frame on `Chroma` hardware given the `frameId`. 
 		/// Animaton is referenced by name.
-		/// EXPORT_API void PluginPreviewFrameName(const char* path, int frameIndex);
+		/// EXPORT_API void PluginPreviewFrameName(const char* path, int frameId);
 		/// </summary>
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern void PluginPreviewFrameName(IntPtr path, int frameIndex);
+		private static extern void PluginPreviewFrameName(IntPtr path, int frameId);
 		/// <summary>
 		/// Reduce the frames of the animation by removing every nth element. Animation 
 		/// is referenced by id.
@@ -10363,34 +10433,34 @@ namespace ChromaSDK
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		private static extern void PluginUnloadLibraryStreamingPlugin();
 		/// <summary>
-		/// Updates the `frameIndex` of the `Chroma` animation referenced by id and 
-		/// sets the `duration` (in seconds). The `color` is expected to be an array 
-		/// of the dimensions for the `deviceType/device`. The `length` parameter is 
-		/// the size of the `color` array. For `EChromaSDKDevice1DEnum` the array size 
+		/// Updates the `frameId` of the `Chroma` animation referenced by id and sets 
+		/// the `duration` (in seconds). The `color` is expected to be an array of 
+		/// the dimensions for the `deviceType/device`. The `length` parameter is the 
+		/// size of the `color` array. For `EChromaSDKDevice1DEnum` the array size 
 		/// should be `MAX LEDS`. For `EChromaSDKDevice2DEnum` the array size should 
 		/// be `MAX ROW` times `MAX COLUMN`. Keys are populated only for EChromaSDKDevice2DEnum::DE_Keyboard 
 		/// and EChromaSDKDevice2DEnum::DE_KeyboardExtended. Keys will only use the 
 		/// EChromaSDKDevice2DEnum::DE_Keyboard `MAX_ROW` times `MAX_COLUMN` keysLength. 
 		///
-		/// EXPORT_API int PluginUpdateFrame(int animationId, int frameIndex, float duration, int* colors, int length, int* keys, int keysLength);
+		/// EXPORT_API int PluginUpdateFrame(int animationId, int frameId, float duration, int* colors, int length, int* keys, int keysLength);
 		/// </summary>
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern int PluginUpdateFrame(int animationId, int frameIndex, float duration, int[] colors, int length, int[] keys, int keysLength);
+		private static extern int PluginUpdateFrame(int animationId, int frameId, float duration, int[] colors, int length, int[] keys, int keysLength);
 		/// <summary>
-		/// Update the `frameIndex` of the `Chroma` animation referenced by name and 
-		/// sets the `duration` (in seconds). The `color` is expected to be an array 
-		/// of the dimensions for the `deviceType/device`. The `length` parameter is 
-		/// the size of the `color` array. For `EChromaSDKDevice1DEnum` the array size 
+		/// Update the `frameId` of the `Chroma` animation referenced by name and sets 
+		/// the `duration` (in seconds). The `color` is expected to be an array of 
+		/// the dimensions for the `deviceType/device`. The `length` parameter is the 
+		/// size of the `color` array. For `EChromaSDKDevice1DEnum` the array size 
 		/// should be `MAX LEDS`. For `EChromaSDKDevice2DEnum` the array size should 
 		/// be `MAX ROW` times `MAX COLUMN`. Keys are populated only for EChromaSDKDevice2DEnum::DE_Keyboard 
 		/// and EChromaSDKDevice2DEnum::DE_KeyboardExtended. Keys will only use the 
 		/// EChromaSDKDevice2DEnum::DE_Keyboard `MAX_ROW` times `MAX_COLUMN` keysLength. 
 		/// Returns the animation id upon success. Returns negative one upon failure. 
 		///
-		/// EXPORT_API int PluginUpdateFrameName(const char* path, int frameIndex, float duration, int* colors, int length, int* keys, int keysLength);
+		/// EXPORT_API int PluginUpdateFrameName(const char* path, int frameId, float duration, int* colors, int length, int* keys, int keysLength);
 		/// </summary>
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern int PluginUpdateFrameName(IntPtr path, int frameIndex, float duration, int[] colors, int length, int[] keys, int keysLength);
+		private static extern int PluginUpdateFrameName(IntPtr path, int frameId, float duration, int[] colors, int length, int[] keys, int keysLength);
 		/// <summary>
 		/// On by default, `UseForwardChromaEvents` sends the animation name to `CoreSetEventName` 
 		/// automatically when `PlayAnimationName` is called.
