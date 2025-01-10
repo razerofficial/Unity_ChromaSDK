@@ -12,8 +12,91 @@ public class RazerChromaSDKMenu : MonoBehaviour
         return dir2.CreationTimeUtc.CompareTo(dir1.CreationTimeUtc);
     }
 
+    static bool SearchForAndTruncateStart(ref string text, string search)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return false;
+        }
+        int index = text.IndexOf(search);
+        if (index < 0)
+        {
+            return false;
+        }
+        text = text.Substring(index + search.Length);
+        return true;
+    }
+
+    static bool IsQuoteEscaped(string text, int index)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return false;
+        }
+        if (index < 1)
+        {
+            return false;
+        }
+        if (index >= text.Length)
+        {
+            return false;
+        }
+        if (text[index] == '"' && text[index - 1] == '\\')
+        {
+            return true;
+        }
+        return false;
+    }
+
+    static bool SearchForQuoteTruncateEnd(ref string text)
+    {
+        const string search = "\"";
+        int temp = 0;
+        while (temp < text.Length)
+        {
+            int index = text.IndexOf(search, temp);
+            if (index < 0)
+            {
+                break;
+            }
+            if (!IsQuoteEscaped(text, index))
+            {
+                text = text.Substring(0, index);
+                return true;
+            }
+            temp += index;
+        }
+        return false;
+    }
+
     static DirectoryInfo GetMostRecentPackageFolder()
     {
+        // check manifest for local package folder
+        const string manifestPath = "Packages\\manifest.json";
+        if (File.Exists(manifestPath))
+        {
+            // read json
+            string json = File.ReadAllText(manifestPath);
+            if (SearchForAndTruncateStart(ref json, "\"com.razer.chromasdk\""))
+            {
+                if (SearchForAndTruncateStart(ref json, ":"))
+                {
+                    if (SearchForAndTruncateStart(ref json, "\""))
+                    {
+                        if (SearchForQuoteTruncateEnd(ref json))
+                        {
+                            string tokenFile = "file:";
+                            if (json.StartsWith(tokenFile))
+                            {
+                                return new DirectoryInfo(json.Substring(tokenFile.Length));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         DirectoryInfo packageCache = new DirectoryInfo("Library\\PackageCache");
         if (packageCache.Exists)
         {
