@@ -359,7 +359,7 @@ namespace ChromaSDK
                 const int minMajor = 1;
                 const int minMinor = 0;
                 const int minBuild = 0;
-                const int minRevision = 6;
+                const int minRevision = 36;
 
                 if (major < minMajor) // Less than minMajor
                 {
