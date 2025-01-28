@@ -75,7 +75,7 @@ public class SampleApp : MonoBehaviour
 
     #endregion
 
-    const int MAX_SAMPLE_COUNT = 47;
+    const int MAX_SAMPLE_COUNT = 48;
 
     public IEnumerator Start()
     {
@@ -528,6 +528,14 @@ public class SampleApp : MonoBehaviour
                 ShowEffect47Mousepad();
                 ShowEffect47Mouse();
                 break;
+            case 48:
+                ShowEffect48();
+                ShowEffect48ChromaLink();
+                ShowEffect48Headset();
+                ShowEffect48Keypad();
+                ShowEffect48Mousepad();
+                ShowEffect48Mouse();
+                break;
         }
     }
 
@@ -837,7 +845,7 @@ public class SampleApp : MonoBehaviour
                             OnGUIShowSampleButtons(11, 20);
                             OnGUIShowSampleButtons(21, 30);
                             OnGUIShowSampleButtons(31, 40);
-                            OnGUIShowSampleButtons(40, MAX_SAMPLE_COUNT);
+                            OnGUIShowSampleButtons(41, MAX_SAMPLE_COUNT);
                         }
                         break;
                     default:
@@ -4979,7 +4987,6 @@ public class SampleApp : MonoBehaviour
         int color = ChromaAnimationAPI.GetRGB(0, 255, 0);
         ChromaAnimationAPI.SetKeysColorAllFramesName(baseLayer, keys, keys.Length, color);
         ChromaAnimationAPI.SetChromaCustomFlagName(baseLayer, true);
-        ChromaAnimationAPI.SetChromaCustomColorAllFramesName(baseLayer);
         ChromaAnimationAPI.OverrideFrameDurationName(baseLayer, 0.033f);
         ChromaAnimationAPI.PlayAnimationName(baseLayer, true);
     }
@@ -5070,7 +5077,6 @@ public class SampleApp : MonoBehaviour
 };
         ChromaAnimationAPI.CopyKeysColorAllFramesName(layer2, baseLayer, keys, keys.Length);
         ChromaAnimationAPI.SetChromaCustomFlagName(baseLayer, true);
-        ChromaAnimationAPI.SetChromaCustomColorAllFramesName(baseLayer);
         ChromaAnimationAPI.OverrideFrameDurationName(baseLayer, 0.033f);
         ChromaAnimationAPI.PlayAnimationName(baseLayer, true);
     }
@@ -5183,7 +5189,6 @@ public class SampleApp : MonoBehaviour
             }
         }
         ChromaAnimationAPI.SetChromaCustomFlagName(baseLayer, true);
-        ChromaAnimationAPI.SetChromaCustomColorAllFramesName(baseLayer);
         ChromaAnimationAPI.OverrideFrameDurationName(baseLayer, 0.033f);
         ChromaAnimationAPI.PlayAnimationName(baseLayer, true);
     }
@@ -5306,7 +5311,6 @@ public class SampleApp : MonoBehaviour
             }
         }
         ChromaAnimationAPI.SetChromaCustomFlagName(baseLayer, true);
-        ChromaAnimationAPI.SetChromaCustomColorAllFramesName(baseLayer);
         ChromaAnimationAPI.OverrideFrameDurationName(baseLayer, 0.033f);
         ChromaAnimationAPI.PlayAnimationName(baseLayer, true);
     }
@@ -5392,7 +5396,6 @@ public class SampleApp : MonoBehaviour
         ChromaAnimationAPI.CloseAnimationName(baseLayer);
         ChromaAnimationAPI.OpenAnimationFromMemory(EMBED_Sample_Keyboard, baseLayer);
         ChromaAnimationAPI.SetChromaCustomFlagName(baseLayer, true);
-        ChromaAnimationAPI.SetChromaCustomColorAllFramesName(baseLayer);
         ChromaAnimationAPI.OverrideFrameDurationName(baseLayer, 0.033f);
         ChromaAnimationAPI.PlayAnimationName(baseLayer, true);
     }
@@ -5441,6 +5444,104 @@ public class SampleApp : MonoBehaviour
         ChromaAnimationAPI.OverrideFrameDurationName(baseLayer, 0.033f);
         ChromaAnimationAPI.PlayAnimationName(baseLayer, true);
     }
+
+    void ShowEffect48()
+    {
+        string baseLayer = "Animations/Idle_Keyboard.chroma";
+        ChromaAnimationAPI.CloseAnimationName(baseLayer);
+        ChromaAnimationAPI.GetAnimation(baseLayer);
+        ChromaAnimationAPI.UseIdleAnimation((int)ChromaAnimationAPI.Device.Keyboard, true);
+        ChromaAnimationAPI.SetIdleAnimationName(baseLayer);
+
+        string animLayer = "Animations/Effect48_Keyboard.chroma";
+        ChromaAnimationAPI.CloseAnimationName(animLayer);
+        ChromaAnimationAPI.GetAnimation(animLayer);
+        const int fadeFrames = 20;
+        ChromaAnimationAPI.FadeStartFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.FadeEndFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.PlayAnimationName(animLayer, false);        
+    }
+    void ShowEffect48ChromaLink()
+    {
+        string baseLayer = "Animations/Idle_ChromaLink.chroma";
+        ChromaAnimationAPI.CloseAnimationName(baseLayer);
+        ChromaAnimationAPI.GetAnimation(baseLayer);
+        ChromaAnimationAPI.UseIdleAnimation((int)ChromaAnimationAPI.Device.ChromaLink, true);
+        ChromaAnimationAPI.SetIdleAnimationName(baseLayer);
+
+        string animLayer = "Animations/Effect48_ChromaLink.chroma";
+        ChromaAnimationAPI.CloseAnimationName(animLayer);
+        ChromaAnimationAPI.GetAnimation(animLayer);
+        const int fadeFrames = 20;
+        ChromaAnimationAPI.FadeStartFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.FadeEndFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.PlayAnimationName(animLayer, false);
+    }
+    void ShowEffect48Headset()
+    {
+        string baseLayer = "Animations/Idle_Headset.chroma";
+        ChromaAnimationAPI.CloseAnimationName(baseLayer);
+        ChromaAnimationAPI.GetAnimation(baseLayer);
+        ChromaAnimationAPI.UseIdleAnimation((int)ChromaAnimationAPI.Device.Headset, true);
+        ChromaAnimationAPI.SetIdleAnimationName(baseLayer);
+
+        string animLayer = "Animations/Effect48_Headset.chroma";
+        ChromaAnimationAPI.CloseAnimationName(animLayer);
+        ChromaAnimationAPI.GetAnimation(animLayer);
+        const int fadeFrames = 20;
+        ChromaAnimationAPI.FadeStartFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.FadeEndFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.PlayAnimationName(animLayer, false);
+    }
+    void ShowEffect48Mousepad()
+    {
+        string baseLayer = "Animations/Idle_Mousepad.chroma";
+        ChromaAnimationAPI.CloseAnimationName(baseLayer);
+        ChromaAnimationAPI.GetAnimation(baseLayer);
+        ChromaAnimationAPI.UseIdleAnimation((int)ChromaAnimationAPI.Device.Mousepad, true);
+        ChromaAnimationAPI.SetIdleAnimationName(baseLayer);
+
+        string animLayer = "Animations/Effect48_Mousepad.chroma";
+        ChromaAnimationAPI.CloseAnimationName(animLayer);
+        ChromaAnimationAPI.GetAnimation(animLayer);
+        const int fadeFrames = 20;
+        ChromaAnimationAPI.FadeStartFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.FadeEndFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.PlayAnimationName(animLayer, false);
+    }
+    void ShowEffect48Mouse()
+    {
+        string baseLayer = "Animations/Idle_Mouse.chroma";
+        ChromaAnimationAPI.CloseAnimationName(baseLayer);
+        ChromaAnimationAPI.GetAnimation(baseLayer);
+        ChromaAnimationAPI.UseIdleAnimation((int)ChromaAnimationAPI.Device.Mouse, true);
+        ChromaAnimationAPI.SetIdleAnimationName(baseLayer);
+
+        string animLayer = "Animations/Effect48_Mouse.chroma";
+        ChromaAnimationAPI.CloseAnimationName(animLayer);
+        ChromaAnimationAPI.GetAnimation(animLayer);
+        const int fadeFrames = 20;
+        ChromaAnimationAPI.FadeStartFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.FadeEndFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.PlayAnimationName(animLayer, false);
+    }
+    void ShowEffect48Keypad()
+    {
+        string baseLayer = "Animations/Idle_Keypad.chroma";
+        ChromaAnimationAPI.CloseAnimationName(baseLayer);
+        ChromaAnimationAPI.GetAnimation(baseLayer);
+        ChromaAnimationAPI.UseIdleAnimation((int)ChromaAnimationAPI.Device.Keypad, true);
+        ChromaAnimationAPI.SetIdleAnimationName(baseLayer);
+
+        string animLayer = "Animations/Effect48_Keypad.chroma";
+        ChromaAnimationAPI.CloseAnimationName(animLayer);
+        ChromaAnimationAPI.GetAnimation(animLayer);
+        const int fadeFrames = 20;
+        ChromaAnimationAPI.FadeStartFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.FadeEndFramesName(animLayer, fadeFrames);
+        ChromaAnimationAPI.PlayAnimationName(animLayer, false);
+    }
+
     #endregion
 
 }
