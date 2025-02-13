@@ -6,7 +6,6 @@
 * [Dependencies](#dependencies)
 * [Requirements and Setup](#requirements-and-setup)
 * [About](#about)
-* [Security](#security)
 * [Chroma Editor Library](#chroma-editor-library)
 * [Windows PC](#windows-pc)
 * [Windows Cloud](#windows-cloud)
