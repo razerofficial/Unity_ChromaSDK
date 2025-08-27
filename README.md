@@ -1,3 +1,7 @@
+# This Repository Has Moved
+
+* Note: This plugin is deprecated. For the latest plugins go to the `WYVRN` documentation at [doc.wyvrn.com](https://doc.wyvrn.com/).
+
 **Table of Contents**
 
 * [See Also](#see-also)
